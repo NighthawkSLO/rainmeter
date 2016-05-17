@@ -20,6 +20,8 @@
 #include <dwrite_1.h>
 #include <wincodec.h>
 #include <wrl/client.h>
+#include <vector>
+#include <sstream>
 
 namespace Gfx {
 
@@ -73,6 +75,59 @@ public:
 	void DrawBitmap(Gdiplus::Bitmap* bitmap, const Gdiplus::Rect& dstRect, const Gdiplus::Rect& srcRect);
 	void DrawMaskedBitmap(Gdiplus::Bitmap* bitmap, Gdiplus::Bitmap* maskBitmap, const Gdiplus::Rect& dstRect,
 		const Gdiplus::Rect& srcRect, const Gdiplus::Rect& srcRect2);
+	enum VectorType {
+		Line,
+		Arc,
+		Bezier
+	};
+	struct VectorPoint {
+		VectorPoint(float x, float y, float type)
+		{
+			m_point.x = x;
+			m_point.y = y;
+			if (type == 0) m_type = VectorType::Line;
+			else if (type == 1) m_type = VectorType::Arc;
+			else if (type == 2) m_type = VectorType::Bezier;
+			else m_type = VectorType::Line;
+
+		}
+		VectorPoint(float x, float y, float type, float ArcWidth, float ArcHeight, float rotation)
+		{
+			//VectorPoint(x, y, type);
+			m_point.x = x;
+			m_point.y = y;
+			if (type == 0) m_type = VectorType::Line;
+			else if (type == 1) m_type = VectorType::Arc;
+			else if (type == 2) m_type = VectorType::Bezier;
+			else m_type = VectorType::Line;
+			m_size.width = ArcWidth;
+			m_size.height = ArcHeight;
+			m_rotation = rotation;
+
+		}
+		VectorPoint(float x, float y, float type, float controlX1, float controlY1, float controlX2, float controlY2)
+		{
+			//VectorPoint(x, y, type);
+			m_point.x = x;
+			m_point.y = y;
+			if (type == 0) m_type = VectorType::Line;
+			else if (type == 1) m_type = VectorType::Arc;
+			else if (type == 2) m_type = VectorType::Bezier;
+			else m_type = VectorType::Line;
+			m_controlpoint1.x = controlX1;
+			m_controlpoint1.y = controlY1;
+			m_controlpoint2.x = controlX2;
+			m_controlpoint2.y = controlY2;
+
+		}
+		D2D1_POINT_2F m_point;
+		D2D1_POINT_2F m_controlpoint1;
+		D2D1_POINT_2F m_controlpoint2;
+		VectorType m_type;
+		float m_rotation;
+		D2D1_SIZE_F m_size;
+	};
+	void DrawPathVector(const std::vector<VectorPoint>& points, const Gdiplus::SolidBrush& fillBrush, const Gdiplus::Color& outlineColor, bool renderBackground, float lineWidth, bool connectEdges);
 
 	void FillRectangle(Gdiplus::Rect& rect, const Gdiplus::SolidBrush& brush);
 
