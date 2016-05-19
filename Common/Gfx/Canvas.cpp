@@ -570,7 +570,6 @@ void Canvas::DrawPathVector(const std::vector<VectorPoint>& points, const Gdiplu
 	Microsoft::WRL::ComPtr<ID2D1PathGeometry> c_PathVector;
 	HRESULT hr = c_D2DFactory->CreatePathGeometry(&c_PathVector);
 		if (FAILED(hr)) return;
-	
 
 		Microsoft::WRL::ComPtr<ID2D1GeometrySink> VectorSink = NULL;
 		hr = c_PathVector->Open(&VectorSink);
@@ -578,7 +577,7 @@ void Canvas::DrawPathVector(const std::vector<VectorPoint>& points, const Gdiplu
 			const auto& firstPoint = points[0];
 			VectorSink->SetFillMode(D2D1_FILL_MODE_WINDING);
 			VectorSink->BeginFigure(firstPoint.m_point, D2D1_FIGURE_BEGIN_FILLED);
-			
+
 			bool first = true;
 			for (const auto& point : points)
 			{
@@ -610,15 +609,12 @@ void Canvas::DrawPathVector(const std::vector<VectorPoint>& points, const Gdiplu
 							point.m_controlpoint1,
 							point.m_controlpoint2
 							));
-
 					break;
 				default:
 					break;
 				}
 
-
 			}
-
 
 			if (connectEdges)
 				VectorSink->EndFigure(D2D1_FIGURE_END_CLOSED);
@@ -639,18 +635,13 @@ void Canvas::DrawPathVector(const std::vector<VectorPoint>& points, const Gdiplu
 				if (SUCCEEDED(hr))
 					m_Target->DrawGeometry(c_PathVector.Get(), solidBrush.Get(), lineWidth);
 				solidBrush.Reset();
-
 			}
-			
-			
 		}
+
 		VectorSink.Reset();
 		VectorSink = nullptr;
 		c_PathVector.Reset();
 		c_PathVector = nullptr;
-
-	
-
 }
 
 void Canvas::FillRectangle(Gdiplus::Rect& rect, const Gdiplus::SolidBrush& brush)

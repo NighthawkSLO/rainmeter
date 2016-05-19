@@ -89,11 +89,9 @@ public:
 			else if (type == 1) m_type = VectorType::Arc;
 			else if (type == 2) m_type = VectorType::Bezier;
 			else m_type = VectorType::Line;
-
 		}
 		VectorPoint(float x, float y, float type, float ArcWidth, float ArcHeight, float rotation)
 		{
-			//VectorPoint(x, y, type);
 			m_point.x = x;
 			m_point.y = y;
 			if (type == 0) m_type = VectorType::Line;
@@ -103,11 +101,9 @@ public:
 			m_size.width = ArcWidth;
 			m_size.height = ArcHeight;
 			m_rotation = rotation;
-
 		}
 		VectorPoint(float x, float y, float type, float controlX1, float controlY1, float controlX2, float controlY2)
 		{
-			//VectorPoint(x, y, type);
 			m_point.x = x;
 			m_point.y = y;
 			if (type == 0) m_type = VectorType::Line;
@@ -118,8 +114,8 @@ public:
 			m_controlpoint1.y = controlY1;
 			m_controlpoint2.x = controlX2;
 			m_controlpoint2.y = controlY2;
-
 		}
+
 		D2D1_POINT_2F m_point;
 		D2D1_POINT_2F m_controlpoint1;
 		D2D1_POINT_2F m_controlpoint2;
@@ -127,8 +123,8 @@ public:
 		float m_rotation;
 		D2D1_SIZE_F m_size;
 	};
-	void DrawPathVector(const std::vector<VectorPoint>& points, const Gdiplus::SolidBrush& fillBrush, const Gdiplus::Color& outlineColor, bool renderBackground, float lineWidth, bool connectEdges);
 
+	void DrawPathVector(const std::vector<VectorPoint>& points, const Gdiplus::SolidBrush& fillBrush, const Gdiplus::Color& outlineColor, bool renderBackground, float lineWidth, bool connectEdges);
 	void FillRectangle(Gdiplus::Rect& rect, const Gdiplus::SolidBrush& brush);
 
 private:
